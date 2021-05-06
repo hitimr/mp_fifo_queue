@@ -31,7 +31,7 @@ $(BUILD_DIR)/%.s.o: %.s
 	$(AS) $(ASFLAGS) -c $< -o $@
 
 # c source
-$(BUILD_DIR)/%.c.o: %.c
+$(BUILD_DIR)/%.c.o: %.c %.h
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
