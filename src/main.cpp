@@ -13,6 +13,7 @@ void playground_hiti()
 void playground_bernd()
 {
     LB_Queue lb_queue = LB_Queue();
+    cout << "Hi from Bernd!" << endl;
 }
 
 int main()
