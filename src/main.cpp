@@ -7,18 +7,14 @@ using namespace std;
 
 
 
-template<class queue_t>
-void benchmark(queue_t q)
-{
-    q.size();
-}
-
 
 
 void playground_hiti()
 {
+    Benchmarker benchmarker;
+
     queue<int> a;
-    benchmark<queue<int>>(a);
+    benchmarker.benchmark<queue<int>>(a);
 }
 
 void playground_bernd()
