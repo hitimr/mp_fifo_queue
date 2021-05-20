@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #define SUCESS 0
 #define ERROR_QUEUE_FULL -1
@@ -6,7 +7,4 @@
 
 
 
-class QueueElement
-{
-    QueueElement() {}
-};
+typedef std::vector<int> queue_element;
