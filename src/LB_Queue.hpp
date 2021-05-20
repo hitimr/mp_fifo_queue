@@ -34,7 +34,7 @@ class LB_Queue
         }
 
         // Add an element to the queue.
-        void push_back(x) throw(int)
+        void push_back(int x) throw(int)
         {
             m.lock()
 
