@@ -19,12 +19,13 @@ void playground_hiti()
 
 void playground_bernd()
 {
-    //LB_Queue lb_queue = LB_Queue();
+    mutex lock;
+    LB_Queue lb_queue = LB_Queue(&lock);
     //cout << "Hi from Bernd!" << endl;
 }
 
 int main()
 {
-    //playground_bernd();
-    playground_hiti();
+    playground_bernd();
+    //playground_hiti();
 }
