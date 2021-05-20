@@ -7,73 +7,71 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <assert.h>
 
 #include "common.h"
 
 class LB_Queue
 {
-    private:
-        mutable std::mutex m;
-        std::vector<int>* items;
+    public:
+        size_t head, tail;
+        std::vector<queue_element*> items;
+        std::mutex * lock;
+        
         int x;
         int capacity = 10;
         
-    public:
-        int head;
-        int tail;
-        //vector<double> T;
-        vector<vector<int>> elements;
-
-        LB_Queue()
+        LB_Queue(std::mutex * new_lock)
         {
+            // TODO variable size
+            capacity = 10;
+            //ssert(capacity > 0);
+            lock = new_lock;
+
+
             head = 0;
             tail = 0;
-            //items = (T)new Object[capacity];
-            //items = new Object[capacity];
-            //items = 
+            //capacity = new_capacity;
+
+            items.clear();
+            items.resize(capacity);
         }
 
         // Add an element to the queue.
+<<<<<<< HEAD
         void push_back(int x) throw(int)
+=======
+        int push(queue_element & x)
+>>>>>>> f099719046b2b4e995298c606f105cd6317d5728
         {
-            m.lock()
+            lock->lock();
 
-            try
+            if(tail - head == items.size())
             {
-                if(tail - head == items.length)
-                {
-                    throw -1;
-                } 
+                return ERROR_QUEUE_FULL;
+            } 
 
-                items[tail % items.length] = x;
-                tail++;
-            }
-            finally
-            {
-                m.unlock();
-            }
+            items[tail % items.size()] = &x;
+            tail++;
+
+            lock->unlock();
+            return SUCESS;
         }
 
-        pop_front() throw(int)
+        queue_element* pop()
         {
-            m.lock()
+            lock->lock();
 
-            try
+            if(tail == head)
             {
-                if(tail == head)
-                {
-                    throw 0;
-                } 
+                return NULL;
+            } 
 
-                x = items[head % items.length];
+            auto element = items[head % items.size()];
+            head++;        
 
-                head++;
-                return x;
-            }
-            finally
-            {
-                m.unlock();
-            }
+            lock->unlock();
+            return element;
         }
 
         // TODO: complete
