@@ -1,5 +1,6 @@
 #include <iostream>
 #include "LB_Queue.hpp"
+#include "SC_Queue.hpp"
 #include "benchmark.hpp"
 #include <queue>
 
@@ -11,10 +12,13 @@ using namespace std;
 
 void playground_hiti()
 {
+    /*
     Benchmarker benchmarker;
 
     queue<int> a;
     benchmarker.benchmark<queue<int>>(a);
+    */
+   SC_Queue scq(10);
 }
 
 void playground_bernd()
@@ -34,6 +38,6 @@ void playground_bernd()
 
 int main()
 {
-    playground_bernd();
-    //playground_hiti();
+    //playground_bernd();
+    playground_hiti();
 }

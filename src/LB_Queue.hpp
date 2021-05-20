@@ -23,6 +23,7 @@ class LB_Queue
         
         LB_Queue(std::mutex * new_lock)
         {
+            // TODO variable size
             capacity = 10;
             //ssert(capacity > 0);
             lock = new_lock;
