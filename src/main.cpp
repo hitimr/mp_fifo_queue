@@ -25,11 +25,11 @@ void playground_bernd()
     queue_element a = "hello";
     queue_element b = "world";
 
-    lb_queue.push_back(a);
-    lb_queue.push_back(b);
+    lb_queue.push(a);
+    lb_queue.push(b);
 
-    cout << (*lb_queue.pop_front()) << endl;
-    cout << lb_queue.pop_front() << endl;
+    cout << (*lb_queue.pop()) << endl;
+    cout << (*lb_queue.pop()) << endl;
 }
 
 int main()

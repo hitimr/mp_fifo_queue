@@ -37,7 +37,7 @@ class LB_Queue
         }
 
         // Add an element to the queue.
-        int push_back(queue_element & x)
+        int push(queue_element & x)
         {
             lock->lock();
 
@@ -53,7 +53,7 @@ class LB_Queue
             return SUCESS;
         }
 
-        queue_element* pop_front()
+        queue_element* pop()
         {
             lock->lock();
 
