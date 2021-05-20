@@ -21,7 +21,15 @@ void playground_bernd()
 {
     mutex lock;
     LB_Queue lb_queue = LB_Queue(&lock);
-    //cout << "Hi from Bernd!" << endl;
+
+    queue_element a = "hello";
+    queue_element b = "world";
+
+    lb_queue.push_back(a);
+    lb_queue.push_back(b);
+
+    cout << (*lb_queue.pop_front()) << endl;
+    cout << lb_queue.pop_front() << endl;
 }
 
 int main()

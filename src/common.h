@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <string>
 
 #define SUCESS 0
 #define ERROR_QUEUE_FULL -1
@@ -7,4 +7,4 @@
 
 
 
-typedef std::vector<int> queue_element;
+typedef std::string queue_element;

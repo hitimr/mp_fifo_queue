@@ -37,7 +37,7 @@ class LB_Queue
         }
 
         // Add an element to the queue.
-        int push_back(queue_element * x)
+        int push_back(queue_element & x)
         {
             lock->lock();
 
@@ -46,33 +46,28 @@ class LB_Queue
                 return ERROR_QUEUE_FULL;
             } 
 
-            items[tail % items.size()] = x;
+            items[tail % items.size()] = &x;
             tail++;
 
-            //m.unlock();
+            lock->unlock();
+            return SUCESS;
         }
-/*
-        pop_front() throw(int)
+
+        queue_element* pop_front()
         {
-            m.lock();
+            lock->lock();
 
-            try
+            if(tail == head)
             {
-                if(tail == head)
-                {
-                    throw 0;
-                } 
+                return NULL;
+            } 
 
-                x = items[head % items.length];
+            auto element = items[head % items.size()];
+            head++;        
 
-                head++;
-                return x;
-            }
-            finally
-            {
-                m.unlock();
-            }
-        }*/
+            lock->unlock();
+            return element;
+        }
 
         // TODO: complete
         /*
