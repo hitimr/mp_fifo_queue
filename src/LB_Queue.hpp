@@ -7,34 +7,34 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
-#include <condition_variable>
 
-template <class T>
+#include "common.h"
 
 class LB_Queue
 {
     private:
-        std::queue<T> q;
         mutable std::mutex m;
-        std::condition_variable c;
-        T items;
-        T x;
+        std::vector<int>* items;
+        int x;
         int capacity = 10;
         
     public:
         int head;
         int tail;
-        vector<double> T;
+        //vector<double> T;
+        vector<vector<int>> elements;
 
         LB_Queue()
         {
             head = 0;
             tail = 0;
-            items = (T)new Object[capacity];
+            //items = (T)new Object[capacity];
+            //items = new Object[capacity];
+            //items = 
         }
 
         // Add an element to the queue.
-        void push_back(T x) throw(int)
+        void push_back(x) throw(int)
         {
             m.lock()
 
@@ -54,7 +54,7 @@ class LB_Queue
             }
         }
 
-        T pop_front() throw(int)
+        pop_front() throw(int)
         {
             m.lock()
 
