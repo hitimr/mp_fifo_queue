@@ -35,8 +35,39 @@ int test_RingBuffer()
     return SUCESS;
 }
 
+
+
+int test_FAA()
+{
+    cout << "Testing atomic_fetch_add..." << endl;
+    int N = 8;
+    int retVal;
+    std::atomic<int> cnt(N);
+
+    // Test simple integer increment
+    cnt = 0;
+    retVal = FAA(&cnt);
+    assert(cnt == 1);
+    assert(retVal == 0);
+
+
+    // Test multiple increments
+    cnt = 0;
+    for(int i = 0; i < 1000; i++)
+    {
+        retVal = FAA(&cnt);
+        assert(cnt == i+1);
+        assert(retVal == i);
+    }
+    
+
+
+    return SUCESS;
+}
+
 int main()
 {
     test_RingBuffer();
+    test_FAA();
     return 0;
 }

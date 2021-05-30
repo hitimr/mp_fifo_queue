@@ -2,8 +2,27 @@
 #include <iostream>
 #include <assert.h>
 #include <vector>
+#include <thread>
+#include <atomic>
 
 #include "common.h"
+
+
+// CAS used for implementation
+#define CAS(expected, desired) CAS_STD_ATOMIC_STRONG(expected, desired)
+
+// possible CAS implementations
+#define CAS_STD_ATOMIC_STRONG(expected, desired)  std::atomic::compare_exchange_strong(expected, desired)
+
+
+
+// FAA uysed for implementaion
+#define FAA(obj) FAA_STD_ATOMIC(obj)
+
+
+// possible FAA implementations
+#define FAA_STD_ATOMIC(obj) std::atomic_fetch_add(obj, 1);
+
 
 
 template <class T>
@@ -25,6 +44,7 @@ class RingBuffer
             data.resize(capacity);
         }
 
+        // Add an element to the queue
         void push(T x)
         {
             data[tail] = x;
@@ -35,7 +55,7 @@ class RingBuffer
                 tail = 0;
             }
         }
-
+        // remove an element from the queue and return it
         T pop()
         {
             T x = data[head];
@@ -47,6 +67,7 @@ class RingBuffer
             return x;
         }
 
+        // return the number of items currently in the queue
         size_t size()
         {
             if(head <= tail)
@@ -73,7 +94,7 @@ typedef struct SCQ_Element_t
     int index;
 } SCQ_Element;
 
-
+// SCQ implementation according to Figure 8 (p. 8)
 class SC_Queue
 {
     public:
@@ -94,3 +115,5 @@ class SC_Queue
             entries.resize(2*capacity, {0, true, INITIAL_INDEX});  // Line 4
         }
 };
+
+
