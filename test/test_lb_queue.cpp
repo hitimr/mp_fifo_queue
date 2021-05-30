@@ -1,5 +1,8 @@
 #include <iostream>
 #include <assert.h>
+#include <omp.h>
+#include <vector>
+#include <algorithm>
 
 #include "common.h"
 #include "SC_Queue.hpp"
@@ -59,6 +62,53 @@ int test_FAA()
         assert(cnt == i+1);
         assert(retVal == i);
     }
+
+    // Test with multiple threads
+cnt = 0;
+    int threadeCnt = 4;
+    omp_set_num_threads(threadeCnt);
+    vector<int> results(threadeCnt);
+
+    // use FAA in parallel
+    #pragma omp parallel
+    {
+        int localRetVal = FAA(&cnt);
+        int threadnum = omp_get_thread_num();
+        results[threadnum] = localRetVal;
+    }
+
+    // check results
+    std::sort(results.begin(), results.end());
+    for(int i = 0; i < (int)results.size(); i++)
+    {
+        assert(results[i] == i);
+    }
+    
+
+
+/*
+    // Test with multiple threads and lots of repeats
+    cnt = 0;
+    threadeCnt = 4;
+    omp_set_num_threads(threadeCnt);
+    vector<int> results(threadeCnt);
+
+    // use FAA in parallel
+    #pragma omp parallel
+    {
+        int localRetVal = FAA(&cnt);
+        int threadnum = omp_get_thread_num();
+        results[threadnum] = localRetVal;
+    }
+
+    // check results
+    std::sort(results.begin(), results.end());
+    for(int i = 0; i < (int)results.size(); i++)
+    {
+        assert(results[i] == i);
+    }*/
+
+    
     
 
 
