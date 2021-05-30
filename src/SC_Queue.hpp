@@ -44,6 +44,7 @@ class RingBuffer
             {
                 head = 0;
             }
+            return x;
         }
 
         size_t size()
@@ -56,6 +57,12 @@ class RingBuffer
             {
                 return head - tail;
             }
+        }
+
+        void clear()
+        {
+            head = 0;
+            tail = 0;
         }
 };
 
