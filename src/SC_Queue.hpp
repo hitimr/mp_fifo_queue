@@ -21,6 +21,7 @@
 
 
 // possible FAA implementations
+// https://en.cppreference.com/w/cpp/atomic/atomic_fetch_add
 #define FAA_STD_ATOMIC(obj) std::atomic_fetch_add(obj, 1);
 
 
@@ -98,7 +99,8 @@ typedef struct SCQ_Element_t
 class SC_Queue
 {
     public:
-        size_t tail, head, capacity;
+        size_t head, capacity;
+        std::atomic<size_t> tail;
         int threshold = -1;
 
         std::vector<SCQ_Element> entries;
@@ -112,7 +114,15 @@ class SC_Queue
             head = 2* capacity;
             
             entries.clear();
-            entries.resize(2*capacity, {0, true, INITIAL_INDEX});  // Line 4
+            entries.resize(2*capacity, {0, true, INITIAL_INDEX});  // Line 4            
+        }
+
+        void enqueue(int index)
+        {
+            while(true)
+            {
+                
+            }
         }
 };
 
