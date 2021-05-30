@@ -51,7 +51,7 @@ class LB_Queue
             tail++;
 
             lock->unlock();
-            return SUCESS;
+            return SUCCESS;
         }
 
         queue_element* pop()
