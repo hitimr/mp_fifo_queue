@@ -89,11 +89,13 @@ int test_FAA()
 
     // Test with multiple threads and lots of repeats
     {
-        cnt = 0;
         int threadeCnt = 256;
         omp_set_num_threads(threadeCnt);
         vector<int> results(threadeCnt);
         int repeats = 1e6;
+
+        std::atomic<int> counter(threadeCnt+1);
+        counter = 0;
 
         // use FAA in parallel
         #pragma omp parallel
@@ -102,10 +104,10 @@ int test_FAA()
 
             for(int i = 0; i < repeats; i++)
             {
-                FAA(&cnt);
+                FAA(&counter);
             }
             #pragma omp barrier
-            results[threadnum] = FAA(&cnt);
+            results[threadnum] = FAA(&counter);
         }
 
         // check results
@@ -115,10 +117,6 @@ int test_FAA()
             assert(results[i] == repeats*threadeCnt + i);
         }
     }
-
-    
-    
-
 
     return SUCESS;
 }
