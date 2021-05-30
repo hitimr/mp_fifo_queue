@@ -4,11 +4,11 @@
 
 TARGET_EXEC ?= program
 
-BUILD_DIR ?= ./out/build
-SRC_DIRS ?= ./src
-
-TEST_DIRS ?= ./test
-TEST_BUILD_DIR ?= $(TEST_DIRS)/out
+OUT_DIR = ./out
+BUILD_DIR = ./out/build
+SRC_DIRS = ./src
+TEST_DIR = ./test
+TEST_BUILD_DIR ?= $(OUT_DIR)/test
 
 # Sources
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
@@ -40,6 +40,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+test: ./test/test_lb_queue.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_lb_queue ./test/test_lb_queue.cpp
+	./$(TEST_BUILD_DIR)/test_lb_queue
 
 .PHONY: clean
 
