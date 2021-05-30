@@ -47,8 +47,11 @@ class RingBuffer
 
         // Add an element to the queue
         void push(T x)
-        {
-            data[tail] = x;
+        {     
+            //std::cout << capacity << ", " << size() << std::endl;
+            //assert(size() < capacity && "buffer full!");            
+
+            data[tail] = x;            
             tail++;
 
             if(tail >= capacity)
@@ -79,6 +82,11 @@ class RingBuffer
             {
                 return head - tail;
             }
+        }
+
+        size_t max_size()
+        {
+            return capacity;
         }
 
         void clear()

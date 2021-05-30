@@ -51,7 +51,7 @@ class LB_Queue
             tail++;
 
             lock->unlock();
-            return SUCESS;
+            return SUCCESS;
         }
 
         queue_element* pop()
@@ -69,41 +69,4 @@ class LB_Queue
             lock->unlock();
             return element;
         }
-
-        // TODO: complete
-        /*
-        1 class LockBasedQueue<T> {
-        2 int head, tail;
-        3 T[] items;
-        4 Lock lock;
-        5 public LockBasedQueue(int capacity) {
-        6 head = 0; tail = 0;
-        7 lock = new ReentrantLock();
-        8 items = (T[])new Object[capacity];
-        9 }
-        10 public void enq(T x) throws FullException {
-        11 lock.lock();
-        12 try {
-        13 if (tail - head == items.length)
-        14 throw new FullException();
-        15 items[tail % items.length] = x;
-        16 tail++;
-        17 } finally {
-        18 lock.unlock();
-        19 }
-        20 }
-        21 public T deq() throws EmptyException {
-        22 lock.lock();
-        23 try {
-        24 if (tail == head)
-        25 throw new EmptyException();
-        26 T x = items[head % items.length];
-        27 head++;
-        28 return x;
-29 } finally {
-30 lock.unlock();
-31 }
-32 }
-33 }
-*/  
 };
