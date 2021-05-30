@@ -64,49 +64,57 @@ int test_FAA()
     }
 
     // Test with multiple threads
-cnt = 0;
-    int threadeCnt = 4;
-    omp_set_num_threads(threadeCnt);
-    vector<int> results(threadeCnt);
-
-    // use FAA in parallel
-    #pragma omp parallel
     {
-        int localRetVal = FAA(&cnt);
-        int threadnum = omp_get_thread_num();
-        results[threadnum] = localRetVal;
-    }
+        cnt = 0;
+        int threadeCnt = 4;
+        omp_set_num_threads(threadeCnt);
+        vector<int> results(threadeCnt);
 
-    // check results
-    std::sort(results.begin(), results.end());
-    for(int i = 0; i < (int)results.size(); i++)
-    {
-        assert(results[i] == i);
+        // use FAA in parallel
+        #pragma omp parallel
+        {
+            int localRetVal = FAA(&cnt);
+            int threadnum = omp_get_thread_num();
+            results[threadnum] = localRetVal;
+        }
+
+        // check results
+        std::sort(results.begin(), results.end());
+        for(int i = 0; i < (int)results.size(); i++)
+        {
+            assert(results[i] == i);
+        }
     }
     
 
-
-/*
     // Test with multiple threads and lots of repeats
-    cnt = 0;
-    threadeCnt = 4;
-    omp_set_num_threads(threadeCnt);
-    vector<int> results(threadeCnt);
-
-    // use FAA in parallel
-    #pragma omp parallel
     {
-        int localRetVal = FAA(&cnt);
-        int threadnum = omp_get_thread_num();
-        results[threadnum] = localRetVal;
+        cnt = 0;
+        int threadeCnt = 256;
+        omp_set_num_threads(threadeCnt);
+        vector<int> results(threadeCnt);
+        int repeats = 1e6;
+
+        // use FAA in parallel
+        #pragma omp parallel
+        {
+            int threadnum = omp_get_thread_num();
+
+            for(int i = 0; i < repeats; i++)
+            {
+                FAA(&cnt);
+            }
+            #pragma omp barrier
+            results[threadnum] = FAA(&cnt);
+        }
+
+        // check results
+        std::sort(results.begin(), results.end());
+        for(int i = 0; i < (int)results.size(); i++)
+        {
+            assert(results[i] == repeats*threadeCnt + i);
+        }
     }
-
-    // check results
-    std::sort(results.begin(), results.end());
-    for(int i = 0; i < (int)results.size(); i++)
-    {
-        assert(results[i] == i);
-    }*/
 
     
     
