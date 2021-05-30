@@ -303,7 +303,7 @@ int test_FAA()
         }
     }
 
-    return SUCESS;
+    return SUCCESS;
 }
 
 int main()

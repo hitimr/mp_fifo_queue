@@ -120,14 +120,14 @@ class SC_Queue
             capacity = new_capacity;
             tail = 2 * capacity;
             head = 2 * capacity;
-            
+            /*
             entries.clear();
             entries.resize(2*capacity);  // Line 4   
 
             for(auto itr = entries.begin(); itr < entries.end(); itr++)
             {
                 *itr = {0, false, 0};
-            }      
+            }      */
         }
 
         void enqueue(int index)
@@ -136,7 +136,7 @@ class SC_Queue
             {
                 size_t T = FAA(&tail);
                 size_t j = cache_remap(T % capacity, capacity);
-                SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
+                //SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
             }
         }
 
