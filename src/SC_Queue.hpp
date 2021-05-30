@@ -103,7 +103,7 @@ class SC_Queue
         std::atomic<size_t> tail;
         int threshold = -1;
 
-        std::vector<SCQ_Element> entries;
+        std::vector<std::atomic<SCQ_Element>> entries;
 
         SC_Queue(size_t new_capacity)
         {
@@ -111,18 +111,33 @@ class SC_Queue
 
             capacity = new_capacity;
             tail = 2 * capacity;
-            head = 2* capacity;
+            head = 2 * capacity;
             
             entries.clear();
-            entries.resize(2*capacity, {0, true, INITIAL_INDEX});  // Line 4            
+            entries.resize(2*capacity);  // Line 4   
+
+            for(auto itr = entries.begin(); itr < entries.end(); itr++)
+            {
+                *itr = {0, false, 0};
+            }      
         }
 
         void enqueue(int index)
         {
             while(true)
             {
-                
+                size_t T = FAA(&tail);
+                size_t j = cache_remap(T % capacity, capacity);
+                SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
             }
+        }
+
+
+    private:
+        size_t cache_remap(const std::atomic<size_t> & idx, size_t n)
+        {
+            // from https://github.com/rusnikola/lfqueue/blob/master/lfring_cas1.h
+            return (size_t) (idx & (n - 1));    // TODO: understand WTF is going on here
         }
 };
 

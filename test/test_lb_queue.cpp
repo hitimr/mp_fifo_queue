@@ -123,7 +123,8 @@ int test_FAA()
 
 int main()
 {
-    test_RingBuffer();
-    test_FAA();
+    //test_RingBuffer();
+    //test_FAA();
+    
     return 0;
 }
