@@ -9,7 +9,7 @@
 
 
 // CAS used for implementation
-#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(expected, desired)
+#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(location, expected, desired)
 
 
 // possible CAS implementations
@@ -100,7 +100,7 @@ class RingBuffer
 
 typedef struct SCQ_Element_t
 {
-    int cycle;
+    size_t cycle;
     bool isSafe;
     int index;
 } SCQ_Element;
@@ -110,7 +110,8 @@ typedef struct SCQ_Element_t
 class SCQ
 {
     public:
-        size_t head, capacity;
+        size_t capacity;
+        std::atomic<size_t> head;
         std::atomic<size_t> tail;
         int threshold = -1;
 
@@ -144,8 +145,23 @@ class SCQ
             {
                 size_t T = FAA(&tail);
                 size_t j = cache_remap(T % capacity, capacity);
-                //auto ent = entries[j].load(std::memory_order_relaxed);
-                //if(ent.cycle <)
+                SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
+
+                std::atomic<SCQ_Element> atomic_new_entry;
+                SCQ_Element new_entry = { (size_t) T, true, index };
+                if(
+                    (ent.cycle < T) && 
+                    (ent.index == INITIAL_ENTRY_INDEX) &&
+                    ((ent.isSafe == true) || (head <= T))
+                )
+                {
+                    atomic_new_entry.store({ (size_t) T, true, index });
+
+                    if(entries[j].compare_exchange_strong(ent, new_entry))
+                    {
+                        
+                    }
+                }
                 return;
             }
         }

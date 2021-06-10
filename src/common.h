@@ -7,11 +7,11 @@
 
 // Initial values for an SCQ Element according to Fig 8, Line 4
 #define INITIAL_ENTRY_CYCLE 0
-#define INITIAL_ENTRY_ISSAFE 1
+#define INITIAL_ENTRY_ISSAFE true
 #define INITIAL_ENTRY_INDEX -1
 
-
-#define MEMORY_ORDER std::memory_order_relaxed
+// sequential consistent memory order required according to paper Section 3 (assumptions)
+#define MEMORY_ORDER std::memory_order_seq_cst
 
 
 
