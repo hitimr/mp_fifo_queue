@@ -1,6 +1,6 @@
 #include <iostream>
 #include "LB_Queue.hpp"
-#include "SC_Queue.hpp"
+#include "SCQ.hpp"
 #include "benchmark.hpp"
 #include <queue>
 
