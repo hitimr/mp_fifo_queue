@@ -113,7 +113,7 @@ class SCQ
         size_t capacity;
         std::atomic<size_t> head;
         std::atomic<size_t> tail;
-        int threshold = -1;
+        std::atomic<int> threshold;
 
         std::atomic<SCQ_Element> * entries;
 
@@ -124,6 +124,7 @@ class SCQ
             capacity = new_capacity;
             tail = 2 * capacity;
             head = 2 * capacity;
+            threshold.store(-1);
             
             entries = new std::atomic<SCQ_Element>[capacity];
 
@@ -148,6 +149,8 @@ class SCQ
                 SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
 
                 std::atomic<SCQ_Element> atomic_new_entry;
+
+                load_next:
                 SCQ_Element new_entry = { (size_t) T, true, index };
                 if(
                     (ent.cycle < T) && 
@@ -159,7 +162,12 @@ class SCQ
 
                     if(entries[j].compare_exchange_strong(ent, new_entry))
                     {
-                        
+                        goto load_next;
+                    }
+
+                    if(threshold.load() !=  3*(int)capacity - 1)
+                    {
+                        threshold.store(3 * capacity - 1);
                     }
                 }
                 return;

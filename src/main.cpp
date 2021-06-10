@@ -19,7 +19,8 @@ void playground_hiti()
     benchmarker.benchmark<queue<int>>(a);
     */
    SCQ scq(10);
-   //scq.enqueue(1);
+   scq.enqueue(1);
+   return;
 }
 
 void playground_bernd()
