@@ -9,10 +9,10 @@
 
 
 // CAS used for implementation
-#define CAS(expected, desired) CAS_STD_ATOMIC_STRONG(expected, desired)
+#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(expected, desired)
 
 // possible CAS implementations
-#define CAS_STD_ATOMIC_STRONG(expected, desired)  std::atomic::compare_exchange_strong(expected, desired)
+#define CAS_STD_ATOMIC_STRONG(location, expected, desired)  std::atomic::compare_exchange_strong(location, expected, desired)
 
 
 
@@ -135,13 +135,16 @@ class SCQ
             }
         }
 
+        // Fig 8 Lines 11-22
         void enqueue(int index)
         {
             while(true)
             {
                 size_t T = FAA(&tail);
                 size_t j = cache_remap(T % capacity, capacity);
-                entries[j].load(std::memory_order_relaxed);
+                auto ent = entries[j].load(std::memory_order_relaxed);
+                //if(ent.cycle < ent.cycle.)
+
             }
         }
 
