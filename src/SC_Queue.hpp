@@ -110,19 +110,16 @@ typedef struct SCQ_Element_t
 class SCQ
 {
     public:
-        size_t capacity;
+        const size_t capacity;
         std::atomic<size_t> head;
         std::atomic<size_t> tail;
         std::atomic<int> threshold;
 
         std::atomic<SCQ_Element> * entries;
 
-        SCQ(size_t new_capacity)
+        SCQ(size_t new_capacity) : capacity(new_capacity)
         {
-            assert(new_capacity > 0);
-
-            capacity = new_capacity;
-            tail = 2 * capacity;
+             tail = 2 * capacity;
             head = 2 * capacity;
             threshold.store(-1);
             
