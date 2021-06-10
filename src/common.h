@@ -11,6 +11,8 @@
 #define INITIAL_ENTRY_INDEX -1
 
 
+#define MEMORY_ORDER std::memory_order_relaxed
+
 
 
 typedef std::string queue_element;

@@ -19,7 +19,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -O1 -fopenmp
+CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O0
 
 # Project
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
