@@ -1,4 +1,5 @@
 #include "SCQ.hpp"
+#include "common.h"
 
 
 SCQ::SCQ(size_t new_capacity) : capacity(new_capacity)
@@ -52,5 +53,57 @@ void SCQ::enqueue(int index)
             }
         }
         return;
+    }
+}
+
+int SCQ::dequeue()
+{
+    if(threshold.load() < 0)
+        return ERROR_QUEUE_EMPTY;
+
+    while(true)
+    {
+        int H = FAA(&head);
+        int j = cache_remap(H % capacity, capacity);
+
+        load_next: // goto 29 in Fig 8
+        SCQ_Element entry = entries[j].load(std::memory_order_relaxed);
+
+        if(entry.cycle == (size_t) H)
+        {
+            // Cycle can't change, mark as ⊥ ()Fig 8 loc 31
+            // Paper uses atomic or which is not part of C++11
+            // therefore we simply load it and set the index to ⊥
+            SCQ_Element consumed_entry = entries[j];
+            consumed_entry.index = INITIAL_ENTRY_INDEX;
+            entries[j].store(consumed_entry);
+
+            return entry.index; // Done
+        }
+
+        SCQ_Element new_entry = {entry.cycle, false, entry.index};
+        if(entry.index == INITIAL_ENTRY_INDEX)
+        {
+            new_entry = { (size_t) H, entry.isSafe, INITIAL_ENTRY_INDEX};
+        }
+
+        if(entry.cycle < (size_t) H)
+        {
+            if(entries[j].compare_exchange_strong(entry, new_entry))
+            {
+                goto load_next;
+            }
+        }
+
+        int T = tail.load();
+        if(T <= H + 1)
+        {
+            // TODO: catchup
+            FAA(&threshold) // TODO: FAA für -1
+            return ERROR_QUEUE_EMPTY;
+        }
+        return ERROR_QUEUE_EMPTY;
+        // TODO: LOC 44
+            
     }
 }

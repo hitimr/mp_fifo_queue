@@ -119,6 +119,7 @@ class SCQ
 
         SCQ(size_t new_capacity);
         void enqueue(int index);
+        int dequeue();
 
         
         
