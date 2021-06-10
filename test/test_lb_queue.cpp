@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <atomic>
 
 #include "common.h"
 #include "SC_Queue.hpp"
@@ -303,6 +304,26 @@ int test_FAA()
         }
     }
 
+    return SUCCESS;
+}
+
+int test_CAS()
+{
+
+    cout << "Testing atomic_compare_and_swap..." << endl;
+    //CAS (location, location.value, new_value), example: CAS(&Tail, tail, head)
+
+    // vector<std::atomic<int>> data;
+    vector<int> data;
+
+    for(int i = 0; i < 5; i++)
+        data.push_back(i);
+
+    //test CAS for a certain element of the vector
+    auto expected = data[2];
+    //CAS(&expected, 2, 3);
+    std::atomic::compare_exchange_strong(&data[2], 2, 3);
+    
     return SUCCESS;
 }
 
