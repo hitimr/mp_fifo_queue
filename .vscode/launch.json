@@ -8,7 +8,7 @@
             "name": "g++ - Aktive Datei erstellen und debuggen",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/out/build/program",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

@@ -11,6 +11,7 @@
 // CAS used for implementation
 #define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(location, expected, desired)
 
+
 // possible CAS implementations
 #define CAS_STD_ATOMIC_STRONG(location, expected, desired)  std::atomic::compare_exchange_strong(location, expected, desired)
 
@@ -126,12 +127,13 @@ class SCQ
             entries = new std::atomic<SCQ_Element>[capacity];
 
             for(size_t i = 0; i < capacity; i++)
-            {
-                entries[i] = {
+            {   
+                SCQ_Element new_entry = {
                     INITIAL_ENTRY_CYCLE,
                     INITIAL_ENTRY_ISSAFE,
                     INITIAL_ENTRY_INDEX
                 };
+                entries[i] = new_entry;
             }
         }
 
@@ -142,9 +144,9 @@ class SCQ
             {
                 size_t T = FAA(&tail);
                 size_t j = cache_remap(T % capacity, capacity);
-                auto ent = entries[j].load(std::memory_order_relaxed);
-                //if(ent.cycle < ent.cycle.)
-
+                //auto ent = entries[j].load(std::memory_order_relaxed);
+                //if(ent.cycle <)
+                return;
             }
         }
 

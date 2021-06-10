@@ -10,6 +10,8 @@ SRC_DIRS = ./src
 TEST_DIR = ./test
 TEST_BUILD_DIR ?= $(OUT_DIR)/test
 
+
+
 # Sources
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -19,11 +21,12 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -O1 -fopenmp
+CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O0
+LDFLAGS = -latomic
 
 # Project
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(OBJS) -o $@ $(LDFLAGS) $(LDFLAGS)
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s
