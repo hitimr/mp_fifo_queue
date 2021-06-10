@@ -9,7 +9,7 @@
 
 
 // CAS used for implementation
-#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(expected, desired)
+#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(location, expected, desired)
 
 // possible CAS implementations
 #define CAS_STD_ATOMIC_STRONG(location, expected, desired)  std::atomic::compare_exchange_strong(location, expected, desired)
