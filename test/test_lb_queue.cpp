@@ -7,7 +7,7 @@
 #include <atomic>
 
 #include "common.h"
-#include "SC_Queue.hpp"
+#include "SCQ.hpp"
 
 using namespace std;
 //#define VERBOSE
@@ -322,7 +322,7 @@ int test_CAS()
     //test CAS for a certain element of the vector
     auto expected = data[2];
     //CAS(&expected, 2, 3);
-    std::atomic::compare_exchange_strong(&data[2], 2, 3);
+    //std::atomic::compare_exchange_strong(&data[2], 2, 3);
     
     return SUCCESS;
 }
