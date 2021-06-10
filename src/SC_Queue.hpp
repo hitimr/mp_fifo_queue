@@ -133,7 +133,7 @@ class SCQ
                     INITIAL_ENTRY_ISSAFE,
                     INITIAL_ENTRY_INDEX
                 };
-                //entries[i].store(new_entry, MEMORY_ORDER);
+                entries[i] = new_entry;
             }
         }
 
