@@ -96,6 +96,7 @@ class RingBuffer
         }
 };
 
+
 typedef struct SCQ_Element_t
 {
     int cycle;
@@ -103,31 +104,35 @@ typedef struct SCQ_Element_t
     int index;
 } SCQ_Element;
 
+
 // SCQ implementation according to Figure 8 (p. 8)
-class SC_Queue
+class SCQ
 {
     public:
         size_t head, capacity;
         std::atomic<size_t> tail;
         int threshold = -1;
 
-        std::vector<std::atomic<SCQ_Element>> entries;
+        std::atomic<SCQ_Element> * entries;
 
-        SC_Queue(size_t new_capacity)
+        SCQ(size_t new_capacity)
         {
             assert(new_capacity > 0);
 
             capacity = new_capacity;
             tail = 2 * capacity;
             head = 2 * capacity;
-            /*
-            entries.clear();
-            entries.resize(2*capacity);  // Line 4   
+            
+            entries = new std::atomic<SCQ_Element>[capacity];
 
-            for(auto itr = entries.begin(); itr < entries.end(); itr++)
+            for(size_t i = 0; i < capacity; i++)
             {
-                *itr = {0, false, 0};
-            }      */
+                entries[i] = {
+                    INITIAL_ENTRY_CYCLE,
+                    INITIAL_ENTRY_ISSAFE,
+                    INITIAL_ENTRY_INDEX
+                };
+            }
         }
 
         void enqueue(int index)
@@ -136,7 +141,7 @@ class SC_Queue
             {
                 size_t T = FAA(&tail);
                 size_t j = cache_remap(T % capacity, capacity);
-                //SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
+                entries[j].load(std::memory_order_relaxed);
             }
         }
 
