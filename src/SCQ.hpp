@@ -18,12 +18,12 @@
 
 
 // FAA uysed for implementaion
-#define FAA(obj) FAA_STD_ATOMIC(obj)
+#define FAA(obj, n) FAA_STD_ATOMIC(obj, n)
 
 
 // possible FAA implementations
 // https://en.cppreference.com/w/cpp/atomic/atomic_fetch_add
-#define FAA_STD_ATOMIC(obj) std::atomic_fetch_add(obj, 1);
+#define FAA_STD_ATOMIC(obj, n) std::atomic_fetch_add(obj, n);
 
 
 
@@ -118,14 +118,13 @@ class SCQ
         std::atomic<SCQ_Element> * entries;
 
         SCQ(size_t new_capacity);
+        // TODO: destructor
+
         void enqueue(int index);
         int dequeue();
-
-        
-        
-
-
+          
     private:
+        void catchup(size_t t, int h); 
         size_t cache_remap(const std::atomic<size_t> & idx, size_t n)
         {
             // from https://github.com/rusnikola/lfqueue/blob/master/lfring_cas1.h
