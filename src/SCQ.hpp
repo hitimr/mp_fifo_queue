@@ -110,7 +110,7 @@ typedef struct SCQ_Element_t
 class SCQ
 {
     public:
-        const size_t capacity;
+        const size_t m_capacity;
         
         std::atomic<size_t> head;
         std::atomic<size_t> tail;
@@ -122,6 +122,7 @@ class SCQ
 
         void enqueue(int index);
         int dequeue();
+        size_t capacity() const { return m_capacity; }
           
     private:
         void catchup(size_t t, int h); 

@@ -43,9 +43,11 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-test: ./test/test_lb_queue.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_lb_queue ./test/test_lb_queue.cpp
+test: ./test/test_lb_queue.cpp ./test/test_scq.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_lb_queue test/test_lb_queue.cpp 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_scq test/test_scq.cpp src/SCQ.cpp $(LDFLAGS)
 	./$(TEST_BUILD_DIR)/test_lb_queue
+	./$(TEST_BUILD_DIR)/test_scq
 
 .PHONY: clean
 

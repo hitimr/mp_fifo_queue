@@ -2,13 +2,13 @@
 #include "common.h"
 
 
-SCQ::SCQ(size_t new_capacity) : capacity(new_capacity)
+SCQ::SCQ(size_t capacity) : m_capacity(capacity)
 {
-    tail = 2 * capacity;
-    head = 2 * capacity;
+    tail = 2 * m_capacity;
+    head = 2 * m_capacity;
     threshold.store(-1);
     
-    entries = new std::atomic<SCQ_Element>[capacity];
+    entries = new std::atomic<SCQ_Element>[m_capacity];
 
     for(size_t i = 0; i < capacity; i++)
     {   
@@ -27,7 +27,7 @@ void SCQ::enqueue(int index)
     while(true)
     {
         size_t T = FAA(&tail, 1);
-        size_t j = cache_remap(T % capacity, capacity);
+        size_t j = cache_remap(T % m_capacity, m_capacity);
         SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
 
         std::atomic<SCQ_Element> atomic_new_entry;
@@ -47,9 +47,9 @@ void SCQ::enqueue(int index)
                 goto load_next;
             }
 
-            if(threshold.load() !=  3*(int)capacity - 1)
+            if(threshold.load() !=  3*(int)m_capacity - 1)
             {
-                threshold.store(3 * capacity - 1);
+                threshold.store(3 * m_capacity - 1);
             }
         }
         return;
@@ -66,7 +66,7 @@ int SCQ::dequeue()
     while(true)
     {
         int H = FAA(&head, 1);
-        int j = cache_remap(H % capacity, capacity);
+        int j = cache_remap(H % m_capacity, m_capacity);
 
         load_next: // goto 29 in Fig 8
         SCQ_Element entry = entries[j].load(std::memory_order_relaxed);
