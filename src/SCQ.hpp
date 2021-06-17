@@ -129,7 +129,7 @@ class SCQ
         void catchup(size_t t, int h); 
         size_t cache_remap(const std::atomic<size_t> & idx, size_t n)
         {
-            return idx;
+            return idx; // TODO: fix cache_remaps
             // from https://github.com/rusnikola/lfqueue/blob/master/lfring_cas1.h
             return (size_t) (idx & (n - 1));    // TODO: understand WTF is going on here
         }
