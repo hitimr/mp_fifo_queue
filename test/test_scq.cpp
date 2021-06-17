@@ -26,49 +26,29 @@ int test_scq_init()
     return SUCCESS;
 }
 
-int test_scq_enqueu_dequeu()
+int test_scq_enqueu_dequeu(int capacity, int threadCnt)
 {
+    omp_set_num_threads(threadCnt);
+    SCQ scq(capacity);
+
+    #pragma omp parallel for
+    for(int i = 0; i < capacity; i++)
     {
-        int capacity = 10;
-        SCQ scq(capacity);
-        scq.enqueue(1);
-        assert(scq.dequeue() == 1);
-        assert(scq.dequeue() == ERROR_QUEUE_EMPTY);
+        scq.enqueue(i);
     }
 
-    
+    vector<int> dequeue_vals(capacity, -1);
+    #pragma omp parallel for
+    for(int i = 0; i < capacity; i++)
     {
-        int capacity = 1e3;
-        int threadeCnt = 1;
-        omp_set_num_threads(threadeCnt);
-        SCQ scq(capacity);
-
-        // generate lots of values to enqueue
-        vector<int> enqueue_vals(capacity);
-        for(size_t i = 0; i < enqueue_vals.size(); i++)
-        {
-            enqueue_vals[i] = i;
-        }
-
-        #pragma omp parallel for
-        for(int i = 0; i < capacity; i++)
-        {
-            scq.enqueue(enqueue_vals[i]);
-        }
-        #pragma omp barrier
-
-        vector<int> dequeue_vals(capacity);
-        #pragma omp parallel for
-        for(int i = 0; i < capacity; i++)
-        {
-            int val = scq.dequeue();
-            dequeue_vals[i] = val;
-        }
-        #pragma omp barrier
-        return 0;
+        int val = scq.dequeue();
+        dequeue_vals[val] = val;
     }
-    
 
+    for(int i = 0; i < capacity; i++)
+    {
+        assert(dequeue_vals[i] == i);
+    }
 
     return SUCCESS;
 }
@@ -78,5 +58,9 @@ int test_scq_enqueu_dequeu()
 int main()
 {
     assert(test_scq_init() == SUCCESS);
-    assert(test_scq_enqueu_dequeu() == SUCCESS);
+
+    std::cout << "Testing enqueue/dequeue" << std::endl;
+    assert(test_scq_enqueu_dequeu(1000, 1) == SUCCESS);
+    assert(test_scq_enqueu_dequeu(1000, 10) == SUCCESS);
+    assert(test_scq_enqueu_dequeu(1000, 100) == SUCCESS);
 }
