@@ -2,8 +2,9 @@
 #include <string>
 
 #define SUCCESS 0
-#define ERROR_QUEUE_FULL -1
-#define ERROR_QUEUE_EMPTY -2
+#define ERROR_QUEUE_EMPTY -1
+#define ERROR_QUEUE_FULL -2
+
 
 // Initial values for an SCQ Element according to Fig 8, Line 4
 #define INITIAL_ENTRY_CYCLE 0

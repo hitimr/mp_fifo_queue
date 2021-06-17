@@ -123,6 +123,7 @@ class SCQ
         void enqueue(int index);
         int dequeue();
         size_t capacity() const { return m_capacity; }
+        // TODO: size
           
     private:
         void catchup(size_t t, int h); 
