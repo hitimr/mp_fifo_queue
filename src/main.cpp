@@ -18,12 +18,20 @@ void playground_hiti()
     queue<int> a;
     benchmarker.benchmark<queue<int>>(a);
     */
-    SCQ scq(10);
-    scq.enqueue(1);
-    scq.enqueue(2);
-    scq.dequeue();
-    int a = scq.dequeue();
-    cout << a << endl;
+   
+    int n = 1000;
+    SCQ scq(n);
+    for(int i = 0; i < n; i++)
+    {
+        scq.enqueue(i);
+    }
+
+    vector<int> test(n);
+    for(int i = 0; i < n; i++)
+    {
+        test[i] = scq.dequeue();
+    }
+
     return;
 }
 
