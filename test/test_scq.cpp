@@ -26,8 +26,10 @@ int test_scq_init()
     return SUCCESS;
 }
 
-int test_scq_enqueu_dequeu(int capacity, int threadCnt)
+int test_scq_enqueu_dequeu_consecutive(int capacity, int threadCnt)
 {
+    // n threads enqueue in parallel. then  sync up and derqueue in parallel
+    // once done we chack if every dequeued element is unique
     omp_set_num_threads(threadCnt);
     SCQ scq(capacity);
 
@@ -36,6 +38,7 @@ int test_scq_enqueu_dequeu(int capacity, int threadCnt)
     {
         scq.enqueue(i);
     }
+    #pragma omp barrier
 
     vector<int> dequeue_vals(capacity, -1);
     #pragma omp parallel for
@@ -60,7 +63,7 @@ int main()
     assert(test_scq_init() == SUCCESS);
 
     std::cout << "Testing enqueue/dequeue" << std::endl;
-    assert(test_scq_enqueu_dequeu(1000, 1) == SUCCESS);
-    assert(test_scq_enqueu_dequeu(1000, 10) == SUCCESS);
-    assert(test_scq_enqueu_dequeu(1000, 100) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 1) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 10) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 100) == SUCCESS);
 }
