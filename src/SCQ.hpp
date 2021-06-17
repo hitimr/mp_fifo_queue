@@ -135,4 +135,20 @@ class SCQ
         }
 };
 
+template<class T>
+class FIFO_Queue
+{
+    public:
+        FIFO_Queue(size_t capacity);
+        ~FIFO_Queue();
+        // TODO: destructor
+
+        void enqueue(T * obj);
+        T* dequeue();
+
+    private:
+        size_t m_capacity;
+        T** m_data;
+};
+
 

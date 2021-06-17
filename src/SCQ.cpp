@@ -128,3 +128,15 @@ void SCQ::catchup(size_t t, int h)
         }
     }
 }
+
+template <typename T>
+FIFO_Queue<T>::FIFO_Queue(size_t capacity) : m_capacity(capacity)
+{ 
+    m_data = new T*[capacity];
+}
+
+template <typename T>
+FIFO_Queue<T>::~FIFO_Queue()
+{
+    delete[] m_data;
+}
