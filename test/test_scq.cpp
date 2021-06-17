@@ -56,6 +56,10 @@ int test_scq_enqueu_dequeu_consecutive(int capacity, int threadCnt)
     return SUCCESS;
 }
 
+int test_scq_enqueu_dequeu_mixed(int capacity, int threadCnt, int queue_ops)
+{
+    return SUCCESS;  
+}
 
 
 int main()
@@ -66,4 +70,6 @@ int main()
     assert(test_scq_enqueu_dequeu_consecutive(1000, 1) == SUCCESS);
     assert(test_scq_enqueu_dequeu_consecutive(1000, 10) == SUCCESS);
     assert(test_scq_enqueu_dequeu_consecutive(1000, 100) == SUCCESS);
+
+    //assert(test_scq_enqueu_dequeu_consetest_scq_enqueu_dequeu_mixedcutive(1000, 2, 100) == SUCCESS); // TODO: Bernd
 }
