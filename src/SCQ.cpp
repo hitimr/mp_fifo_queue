@@ -133,6 +133,7 @@ void SCQ::catchup(size_t t, int h)
 FIFO_Queue::FIFO_Queue(size_t capacity) : m_capacity(capacity)
 { 
     m_data = new std::vector<int>*[capacity];
+    m_size = 0;
 
     // aq initiualized empty
     aq = new SCQ(m_capacity);
@@ -166,6 +167,8 @@ int FIFO_Queue::enqueue(std::vector<int> * obj)
 
     m_data[index] = obj;
     aq->enqueue(index);
+    FAA(&m_size, 1);
+    
     return SUCCESS;
 }
 
@@ -179,6 +182,7 @@ std::vector<int> * FIFO_Queue::dequeue()
     }
     std::vector<int> * ptr = m_data[index];
     fq->enqueue(index);
+    FAA(&m_size, -1);
 
     return ptr;
 }

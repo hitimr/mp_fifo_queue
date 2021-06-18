@@ -137,19 +137,23 @@ class SCQ
 
 class FIFO_Queue
 {
+    private:
+        size_t m_capacity;
+        std::vector<int> ** m_data;
+        std::atomic<int> m_size;
+
+        SCQ * aq;
+        SCQ * fq;
+
     public:
         FIFO_Queue(size_t capacity);
         ~FIFO_Queue();
 
         int enqueue(std::vector<int> * obj);
         std::vector<int> * dequeue();
-
-    private:
-        size_t m_capacity;
-        std::vector<int> ** m_data;
-
-        SCQ * aq;
-        SCQ * fq;
+        size_t capacity() { return m_capacity; }
+        bool empty() { return m_size == 0 ? true : false; }
+        size_t size() { return m_size; }
 };
 
 
