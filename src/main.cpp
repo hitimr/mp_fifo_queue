@@ -35,17 +35,23 @@ void playground_hiti()
 
 void playground_bernd()
 {
-    mutex lock;
-    LB_Queue lb_queue = LB_Queue(&lock);
+    // mutex lock;
+    // LB_Queue lb_queue = LB_Queue(&lock);
 
-    queue_element a = "hello";
-    queue_element b = "world";
+    // queue_element a = "hello";
+    // queue_element b = "world";
 
-    lb_queue.push(a);
-    lb_queue.push(b);
+    // lb_queue.push(a);
+    // lb_queue.push(b);
 
-    cout << (*lb_queue.pop()) << endl;
-    cout << (*lb_queue.pop()) << endl;
+    // cout << (*lb_queue.pop()) << endl;
+    // cout << (*lb_queue.pop()) << endl;
+    // void test_Q_functionality()
+    // {
+        
+
+    //     return SUCCESS;
+    // }
 }
 
 int main()
