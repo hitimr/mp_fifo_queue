@@ -2,7 +2,7 @@
 #include "common.h"
 
 
-SCQ::SCQ(size_t capacity) : m_capacity(capacity)
+SCQ::SCQ(size_t capacity = 0) : m_capacity(capacity)
 {
     tail = 2 * m_capacity;
     head = 2 * m_capacity;
@@ -129,14 +129,19 @@ void SCQ::catchup(size_t t, int h)
     }
 }
 
-template <typename T>
-FIFO_Queue<T>::FIFO_Queue(size_t capacity) : m_capacity(capacity)
+
+FIFO_Queue::FIFO_Queue(size_t capacity) : m_capacity(capacity)
 { 
-    m_data = new T*[capacity];
+    m_data = new std::vector<int>*[capacity];
+
+    aq = new SCQ(capacity);
+    fq = new SCQ(capacity);
 }
 
-template <typename T>
-FIFO_Queue<T>::~FIFO_Queue()
+
+FIFO_Queue::~FIFO_Queue()
 {
     delete[] m_data;
+    delete aq;
+    delete fq;
 }

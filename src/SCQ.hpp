@@ -135,20 +135,21 @@ class SCQ
         }
 };
 
-template<class T>
 class FIFO_Queue
 {
     public:
         FIFO_Queue(size_t capacity);
         ~FIFO_Queue();
-        // TODO: destructor
 
-        void enqueue(T * obj);
-        T* dequeue();
+        void enqueue(std::vector<int> * obj);
+        std::vector<int> * dequeue();
 
     private:
         size_t m_capacity;
-        T** m_data;
+        std::vector<int> ** m_data;
+
+        SCQ * aq;
+        SCQ * fq;
 };
 
 
