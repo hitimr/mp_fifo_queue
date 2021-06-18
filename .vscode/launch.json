@@ -29,7 +29,7 @@
             "name": "g++ - Debug test",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/out/test/test_scq",
+            "program": "${workspaceFolder}/out/test/test_FIFO_queue",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

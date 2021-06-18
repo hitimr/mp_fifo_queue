@@ -42,6 +42,52 @@ int test_enqueue_dequeue()
     return SUCCESS; 
 }
 
+int test_fifo_wraparound(int threadCnt)
+{
+    // queue is filled to 70% and then emptied again. this priocess is repeated several times
+    // some values i.e. tail of an SCQ wil wrap around during the second repeat
+    int capacity = 1000;
+    int repeats = 10;
+    int num_objects = (int) capacity*0.7;
+    FIFO_Queue q(capacity);
+    omp_set_num_threads(threadCnt);
+
+
+    vector<vector<int>> objects;
+    vector<vector<int> *> dequeued_elements(num_objects);
+    for(int i = 0; i < (int) num_objects; i++)
+    {
+        vector<int> new_object(1, i);
+        objects.push_back(new_object);
+    }    
+
+
+    for(int r = 0; r < repeats; r++)
+    {
+        #pragma omp parallel for
+        for(int i = 0; i < num_objects; i++)
+        {
+            q.enqueue(&objects[i]);
+        }
+     
+        #pragma omp parallel for
+        for(int i = 0; i < num_objects; i++)
+        {
+            vector<int> * dq_element = q.dequeue();
+            dequeued_elements[dq_element->at(0)] = dq_element;
+        }
+
+        for(int i = 0; i < num_objects; i++)
+        {
+            assert(dequeued_elements[i]->at(0) == i);
+        }
+        assert(q.empty() == true);
+
+    }
+    
+    return SUCCESS;
+}
+
 
 int test_constructor()
 {
@@ -66,6 +112,12 @@ int main()
 
     assert(test_enqueue_dequeue() == SUCCESS);
     assert(test_constructor() == SUCCESS);
+
+    cout << "Testing wraparound correctness of FIFO queue..." << endl;
+    assert(test_fifo_enqueu_dequeu_consecutive(1) == SUCCESS);
+    assert(test_fifo_enqueu_dequeu_consecutive(10) == SUCCESS);
+    assert(test_fifo_enqueu_dequeu_consecutive(100) == SUCCESS);
+    cout << "Done" << endl;
 
     cout << "All tests for FIFO queue passed!" << endl;
 }

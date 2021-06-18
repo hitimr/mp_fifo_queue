@@ -183,6 +183,5 @@ std::vector<int> * FIFO_Queue::dequeue()
     std::vector<int> * ptr = m_data[index];
     fq->enqueue(index);
     FAA(&m_size, -1);
-
     return ptr;
 }

@@ -34,9 +34,13 @@ void Benchmarker::initialize(int thread_cnt, int object_cnt, int object_size, in
 void Benchmarker::printResults()
 {
     cout << "Finished evaluating " << m_queue_name << endl;
+
     cout << "average total Enqueue time [ms] = " << average(m_enqueue_times) << endl;
     cout << "average enqueues/s [1/ms] = " << average(m_enqueue_rates) << endl;
+    cout << "average time per enqueue [ns] = " << 1.0/average(m_enqueue_rates)*1000 << endl;
+
+    cout << "average total Dequeue time [ms] = " << average(m_dequeue_times) << endl;
+    cout << "average dequeues/s [1/ms] = " << average(m_dequeue_rates) << endl;
+    cout << "average time per dequeue [ns] = " << 1.0/average(m_dequeue_rates)*1000.0 << endl;
     cout << endl;
 }
-
-

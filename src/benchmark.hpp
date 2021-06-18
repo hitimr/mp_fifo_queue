@@ -21,14 +21,16 @@ class Benchmarker
         // results
         string m_queue_name = "noName";
         std::vector<double> m_enqueue_times;
+        std::vector<double> m_dequeue_times;
         std::vector<double> m_enqueue_rates;
+        std::vector<double> m_dequeue_rates;
 
         void initialize(int thread_cnt, int object_cnt, int object_size, int repeats);
         void printResults();
         template<class queue_t> void benchmark(queue_t & q);
         template<class queue_t> void benchmark_enqueu(queue_t & q);
+        template<class queue_t> void benchmark_dequeue(queue_t & q);
 };
-
 
 
 template<class queue_t> void Benchmarker::benchmark(queue_t & q)
@@ -37,6 +39,7 @@ template<class queue_t> void Benchmarker::benchmark(queue_t & q)
     for(int i = 0; i < m_repeats; i++)
     {
         benchmark_enqueu(q);
+        benchmark_dequeue(q);
     }
     printResults();
 }
@@ -57,4 +60,23 @@ template<class queue_t> void Benchmarker::benchmark_enqueu(queue_t & q)
     double enqueue_time = duration<double, std::milli>(end-start).count();
     m_enqueue_times.push_back(enqueue_time);
     m_enqueue_rates.push_back((double) m_object_count / enqueue_time);
+}
+
+// For some reason I cant put that into a source file...
+template<class queue_t> void Benchmarker::benchmark_dequeue(queue_t & q)
+{
+    auto start = std::chrono:: high_resolution_clock::now();
+
+    // enqueue all objects
+    #pragma omp parallel
+    {
+        while(!q.empty())
+        {
+            q.dequeue();
+        }
+    }
+    auto end = high_resolution_clock::now();
+    double dequeue_time = duration<double, std::milli>(end-start).count();
+    m_dequeue_times.push_back(dequeue_time);
+    m_dequeue_rates.push_back((double) m_object_count / (dequeue_time * m_threadcnt));
 }
