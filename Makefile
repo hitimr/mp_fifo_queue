@@ -46,10 +46,13 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 test: ./test/test_lb_queue.cpp ./test/test_scq.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_lb_queue test/test_lb_queue.cpp 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_scq test/test_scq.cpp src/SCQ.cpp $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_FIFO_queue test/test_FIFO_queue.cpp src/SCQ.cpp $(LDFLAGS)
 	./$(TEST_BUILD_DIR)/test_lb_queue
 	./$(TEST_BUILD_DIR)/test_scq
+	./$(TEST_BUILD_DIR)/test_FIFO_queue
 
-.PHONY: clean
+
+.PHONY: clean test
 
 run:
 	./$(BUILD_DIR)/$(TARGET_EXEC)

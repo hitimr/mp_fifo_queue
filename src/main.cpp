@@ -18,19 +18,17 @@ void playground_hiti()
     queue<int> a;
     benchmarker.benchmark<queue<int>>(a);
     */
-   
-    int n = 1000;
-    SCQ scq(n);
-    for(int i = 0; i < n; i++)
-    {
-        scq.enqueue(i);
-    }
 
-    vector<int> test(n);
-    for(int i = 0; i < n; i++)
-    {
-        test[i] = scq.dequeue();
-    }
+
+    FIFO_Queue q(10);
+    vector<int> obj(15, 1);
+
+    q.enqueue(&obj);
+
+    vector<int> * ret_obj = q.dequeue();
+
+
+
 
     return;
 }
