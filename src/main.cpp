@@ -13,9 +13,10 @@ using namespace std;
 void playground_hiti()
 {
 
-    Benchmarker benchmarker;
-    benchmarker.initialize(8, 1e5, 10);
     int capacity = 1e6;
+    Benchmarker benchmarker;    
+    benchmarker.initialize(8, capacity, 10, 10);
+    
     FIFO_Queue fifo_q(capacity);
     LB_Queue lb_q(capacity);
     

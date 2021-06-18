@@ -17,3 +17,13 @@
 
 
 typedef std::string queue_element;
+
+inline double average(std::vector<double> & vec)
+{
+    double avg = 0;
+    for(size_t i = 0; i < vec.size(); i++)
+    {
+        avg += vec[i];
+    } 
+    return avg / ((double) vec.size());
+}
