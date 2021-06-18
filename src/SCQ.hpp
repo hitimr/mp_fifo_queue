@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <string>
 
 #include "common.h"
 
@@ -145,7 +146,8 @@ class FIFO_Queue
         SCQ * aq;
         SCQ * fq;
 
-    public:
+    public:    
+        std::string name = "FIFO Queue";
         FIFO_Queue(size_t capacity);
         ~FIFO_Queue();
 
