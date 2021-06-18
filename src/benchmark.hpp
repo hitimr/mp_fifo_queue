@@ -17,7 +17,7 @@ class Benchmarker
 template<class queue_t> void Benchmarker::benchmark(queue_t & q)
 {
     // gnerate objects
-    int object_count = 1e4;
+    int object_count = 1e7;
     int object_size = 10;
     vector<vector<int>> objects(object_count);
     
@@ -31,12 +31,14 @@ template<class queue_t> void Benchmarker::benchmark(queue_t & q)
 
     auto start = std::chrono:: high_resolution_clock::now();
 
-    // enqueue
+    // enqueue all objects
     for(int i = 0; i < object_count; i++)
     {
         q.enqueue(&objects[i]);
     }
 
+
+    // dequeue all objects
     while(!q.empty())
     {
         q.dequeue();

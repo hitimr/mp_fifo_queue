@@ -14,11 +14,14 @@ void playground_hiti()
 {
 
     Benchmarker benchmarker;
-    FIFO_Queue q(1e5);
+    int capacity = 1e3;
+    FIFO_Queue fifo_q(capacity);
+    LB_Queue lb_q(capacity);
     
 
 
-    benchmarker.benchmark<FIFO_Queue>(q);
+    benchmarker.benchmark<FIFO_Queue>(fifo_q);
+    benchmarker.benchmark<LB_Queue>(lb_q);
 
     return;
 }

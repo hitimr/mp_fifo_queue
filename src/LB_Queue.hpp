@@ -13,48 +13,52 @@
 
 class LB_Queue
 {
+    private:
+        size_t m_capacity = 0;
+        size_t m_size = 0;
+
     public:
         size_t head, tail;
-        std::vector<queue_element*> items;
+        std::vector<std::vector<int> *> items;
         std::mutex * lock;
         
-        int x;
         int capacity = 10;
         
-        LB_Queue(std::mutex * new_lock)
+        LB_Queue(size_t capacity) : m_capacity(capacity)
         {
-            // TODO variable size
-            capacity = 10;
-            //ssert(capacity > 0);
-            lock = new_lock;
+            lock = new std::mutex();
 
 
             head = 0;
             tail = 0;
-            //capacity = new_capacity;
+            m_size = 0;
 
             items.clear();
             items.resize(capacity);
         }
 
-        // Add an element to the queue.
-        int push(queue_element & x)
-        {
-            lock->lock();
+        size_t size() { return m_size; }
+        bool empty() { return m_size == 0 ? true : false; }
 
-            if(tail - head == items.size())
+        // Add an element to the queue.
+        int enqueue(std::vector<int> * x)
+        {        
+            if(m_size == m_capacity)
             {
                 return ERROR_QUEUE_FULL;
             } 
+            
+            lock->lock();
 
-            items[tail % items.size()] = &x;
+            items[tail % items.size()] = x;
             tail++;
+            m_size++;
 
             lock->unlock();
             return SUCCESS;
         }
 
-        queue_element* pop()
+        std::vector<int> * dequeue()
         {
             lock->lock();
 
@@ -64,9 +68,11 @@ class LB_Queue
             } 
 
             auto element = items[head % items.size()];
-            head++;        
+            head++; 
+            m_size--;       
 
             lock->unlock();
+
             return element;
         }
 };
