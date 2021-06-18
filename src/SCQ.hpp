@@ -141,7 +141,7 @@ class FIFO_Queue
         FIFO_Queue(size_t capacity);
         ~FIFO_Queue();
 
-        void enqueue(std::vector<int> * obj);
+        int enqueue(std::vector<int> * obj);
         std::vector<int> * dequeue();
 
     private:

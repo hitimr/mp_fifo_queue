@@ -129,13 +129,20 @@ void SCQ::catchup(size_t t, int h)
     }
 }
 
-
+// constructor according to Fig. 4
 FIFO_Queue::FIFO_Queue(size_t capacity) : m_capacity(capacity)
 { 
     m_data = new std::vector<int>*[capacity];
 
-    aq = new SCQ(capacity);
-    fq = new SCQ(capacity);
+    // aq initiualized empty
+    aq = new SCQ(m_capacity);
+    
+    // fq initialized full
+    fq = new SCQ(m_capacity);
+    for(size_t i = 0; i < m_capacity; i++)
+    {
+        fq->enqueue(i);
+    }
 }
 
 
@@ -144,4 +151,34 @@ FIFO_Queue::~FIFO_Queue()
     delete[] m_data;
     delete aq;
     delete fq;
+}
+
+
+int FIFO_Queue::enqueue(std::vector<int> * obj)
+{
+    int index = fq->dequeue();
+    if(index == ERROR_QUEUE_EMPTY)
+    {
+        // no free elements available -> FIFO queue is full
+        return ERROR_QUEUE_FULL;
+    }
+
+
+    m_data[index] = obj;
+    aq->enqueue(index);
+    return SUCCESS;
+}
+
+std::vector<int> * FIFO_Queue::dequeue()
+{
+    int index = aq->dequeue();
+    if(index == ERROR_QUEUE_EMPTY)
+    {
+        // FIFO Queue is empty
+        return nullptr;
+    }
+    std::vector<int> * ptr = m_data[index];
+    fq->enqueue(index);
+
+    return ptr;
 }
