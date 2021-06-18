@@ -14,6 +14,11 @@
 // sequential consistent memory order required according to paper Section 3 (assumptions)
 #define MEMORY_ORDER std::memory_order_seq_cst
 
+#define ARG_QUEUE_TYPE 1
+#define ARG_NUM_OBJECTS 2
+#define ARG_OBJECT_SIZE 3
+#define ARG_NUM_THREADS 4
+#define ARG_REPEATS 5
 
 
 typedef std::string queue_element;
@@ -27,3 +32,4 @@ inline double average(std::vector<double> & vec)
     } 
     return avg / ((double) vec.size());
 }
+

@@ -25,7 +25,7 @@ int main()
     LB_Queue lb_q(capacity);
 
     benchmarker.benchmark<FIFO_Queue>(fifo_q);
-    benchmarker.benchmark<LB_Queue>(lb_q);
+    //benchmarker.benchmark<LB_Queue>(lb_q);
 
     cout << "All tests for FIFO queue passed!" << endl;
 

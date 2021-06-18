@@ -1,5 +1,7 @@
 #include <iostream>
 #include <omp.h>
+#include <string>
+#include <fstream>
 
 #include "benchmark.hpp"
 #include "common.h"
@@ -28,6 +30,18 @@ void Benchmarker::initialize(int thread_cnt, int object_cnt, int object_size, in
     omp_set_num_threads(m_threadcnt);
 
     return;
+}
+
+void Benchmarker::write_results_to_file()
+{
+    string fileName = "out/" + m_queue_name + "_" + to_string(m_threadcnt) + "_" + to_string(m_object_count) + ".csv";
+    ofstream outfile(fileName);
+    
+    outfile << "total enqueue time;total dequeue time;enqueue rate;dequeue rate"  << endl;
+    for(int i = 0; i < m_repeats; i++)
+    {
+        outfile << m_enqueue_times[i] << ";" << m_dequeue_times[i] << ";" << m_enqueue_rates[i] << ";" << m_dequeue_rates[i] << endl;
+    }
 }
 
 

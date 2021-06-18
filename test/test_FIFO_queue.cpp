@@ -114,9 +114,9 @@ int main()
     assert(test_constructor() == SUCCESS);
 
     cout << "Testing wraparound correctness of FIFO queue..." << endl;
-    assert(test_fifo_enqueu_dequeu_consecutive(1) == SUCCESS);
-    assert(test_fifo_enqueu_dequeu_consecutive(10) == SUCCESS);
-    assert(test_fifo_enqueu_dequeu_consecutive(100) == SUCCESS);
+    assert(test_fifo_wraparound(1) == SUCCESS);
+    assert(test_fifo_wraparound(10) == SUCCESS);
+    assert(test_fifo_wraparound(100) == SUCCESS);
     cout << "Done" << endl;
 
     cout << "All tests for FIFO queue passed!" << endl;

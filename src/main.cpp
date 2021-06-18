@@ -1,8 +1,10 @@
 #include <iostream>
+#include <queue>
+#include <string>
+
 #include "LB_Queue.hpp"
 #include "SCQ.hpp"
 #include "benchmark.hpp"
-#include <queue>
 
 using namespace std;
 
@@ -26,30 +28,56 @@ void playground_hiti()
     return;
 }
 
-void playground_bernd()
+/* CLI arguments: 
+
+[queue_type]    FIFO or LB
+[num_objects]   number of objects that should get enqueued
+[object_size]   size of objects. does not really matter since we are enqueuing pointers to said objects
+[num_threads]   number of threads for ther benchmarking
+[repeats]       number of times the benchmark is repeated. results are logged individually
+
+*/
+int main(int argc, char *argv[])
 {
-    // mutex lock;
-    // LB_Queue lb_queue = LB_Queue(&lock);
+    // parse CLI argumments
+    assert(argc == 6);
+    string queue_type = string(argv[ARG_QUEUE_TYPE]);
+    int num_threads = stoi(argv[ARG_NUM_THREADS]);
+    int num_objects = stoi(argv[ARG_NUM_OBJECTS]);
+    int object_size = stoi(argv[ARG_OBJECT_SIZE]);
+    int repeats = stoi(argv[ARG_REPEATS]);
+    int capacity = 1.2*num_objects;
 
-    // queue_element a = "hello";
-    // queue_element b = "world";
+    // some checks..
+    assert(num_threads > 0);
+    assert(num_objects > 0);
+    assert(object_size >= 0);  // empty objects are valid
+    assert(repeats > 0);
 
-    // lb_queue.push(a);
-    // lb_queue.push(b);
+    // setup benchmarker
+    Benchmarker benchmarker;    
+    benchmarker.initialize(
+        num_threads, 
+        num_objects, 
+        object_size, 
+        repeats
+        );
 
-    // cout << (*lb_queue.pop()) << endl;
-    // cout << (*lb_queue.pop()) << endl;
-    // void test_Q_functionality()
-    // {
-        
 
-    //     return SUCCESS;
-    // }
+    if(queue_type == "FIFO")
+    {
+        FIFO_Queue fifo_q(capacity);
+        LB_Queue lb_q(capacity);
+
+        benchmarker.benchmark<FIFO_Queue>(fifo_q);
+    }
+    else if (queue_type == "LB")
+    {
+        // TODO LB queue benchmark
+    }
+    else
+    {
+        cout << "Error: invalid queue type" << endl;
+    }     
 }
 
-int main()
-{
-    //playground_bernd();
-    playground_hiti();
-    cout << "Done" << endl;
-}

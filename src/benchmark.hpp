@@ -3,6 +3,7 @@
 #include <chrono>
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 using namespace std;
 using namespace chrono;
@@ -27,12 +28,14 @@ class Benchmarker
 
         void initialize(int thread_cnt, int object_cnt, int object_size, int repeats);
         void printResults();
+        void write_results_to_file();
         template<class queue_t> void benchmark(queue_t & q);
         template<class queue_t> void benchmark_enqueu(queue_t & q);
         template<class queue_t> void benchmark_dequeue(queue_t & q);
 };
 
 
+// For some reason I cant put template methods into a source file...
 template<class queue_t> void Benchmarker::benchmark(queue_t & q)
 {
     m_queue_name = q.name;
@@ -42,9 +45,10 @@ template<class queue_t> void Benchmarker::benchmark(queue_t & q)
         benchmark_dequeue(q);
     }
     printResults();
+    write_results_to_file();
 }
 
-// For some reason I cant put that into a source file...
+
 template<class queue_t> void Benchmarker::benchmark_enqueu(queue_t & q)
 {
     auto start = std::chrono:: high_resolution_clock::now();
@@ -62,19 +66,16 @@ template<class queue_t> void Benchmarker::benchmark_enqueu(queue_t & q)
     m_enqueue_rates.push_back((double) m_object_count / enqueue_time);
 }
 
-// For some reason I cant put that into a source file...
 template<class queue_t> void Benchmarker::benchmark_dequeue(queue_t & q)
 {
     auto start = std::chrono:: high_resolution_clock::now();
 
     // enqueue all objects
-    #pragma omp parallel
+    for(int i = 0; i < m_object_count; i++)
     {
-        while(!q.empty())
-        {
-            q.dequeue();
-        }
+        q.dequeue();
     }
+    assert(q.empty() == true);
     auto end = high_resolution_clock::now();
     double dequeue_time = duration<double, std::milli>(end-start).count();
     m_dequeue_times.push_back(dequeue_time);
