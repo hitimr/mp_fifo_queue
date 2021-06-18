@@ -8,25 +8,41 @@ using namespace chrono;
 class Benchmarker
 {
     public:
-        template<class queue_t> void benchmark(queue_t q);
+        template<class queue_t> void benchmark(queue_t & q);
 };
 
 
 
 // For some reason I cant put that into a source file...
-template<class queue_t> void Benchmarker::benchmark(queue_t q)
+template<class queue_t> void Benchmarker::benchmark(queue_t & q)
 {
-    auto start = std::chrono:: high_resolution_clock::now();
-    for(int i = 0; i < 10000; i++)
+    // gnerate objects
+    int object_count = 1e4;
+    int object_size = 10;
+    vector<vector<int>> objects(object_count);
+    
+    for(int i = 0; i < object_count; i++)
     {
-        q.push(i);
+        vector<int> new_obj(object_size, i);
+        objects[i] = new_obj;
+    }
+
+
+
+    auto start = std::chrono:: high_resolution_clock::now();
+
+    // enqueue
+    for(int i = 0; i < object_count; i++)
+    {
+        q.enqueue(&objects[i]);
     }
 
     while(!q.empty())
     {
-        q.pop();
+        q.dequeue();
     }
+
     auto end = high_resolution_clock::now();
-    cout << duration<double, std::milli>(end-start).count()  << endl;
+    std::cout << duration<double, std::milli>(end-start).count()  << std::endl;
 
 }

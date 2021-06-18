@@ -12,23 +12,13 @@ using namespace std;
 
 void playground_hiti()
 {
-    /*
+
     Benchmarker benchmarker;
-
-    queue<int> a;
-    benchmarker.benchmark<queue<int>>(a);
-    */
+    FIFO_Queue q(1e5);
+    
 
 
-    FIFO_Queue q(10);
-    vector<int> obj(15, 1);
-
-    q.enqueue(&obj);
-
-    vector<int> * ret_obj = q.dequeue();
-
-
-
+    benchmarker.benchmark<FIFO_Queue>(q);
 
     return;
 }
