@@ -88,6 +88,8 @@ int test_scq_enqueu_dequeu_mixed(int capacity, int threadCnt, int queue_ops)
         // scq.enqueue(initvals[i+1]);
         // scq.enqueue(initvals[i+2]);
 
+        while(scq.head == scq.tail) {}
+
         retvals[i] = scq.dequeue();
         // retvals[i+1] = scq.dequeue();
         // retvals[i+2] = scq.dequeue();
@@ -107,12 +109,14 @@ int test_scq_enqueu_dequeu_mixed(int capacity, int threadCnt, int queue_ops)
 
 int main()
 {
-    // assert(test_scq_init() == SUCCESS);
+    cout << "Testing SCQ..." << endl;
+    assert(test_scq_init() == SUCCESS);
 
-    // std::cout << "Testing enqueue/dequeue" << std::endl;
-    // assert(test_scq_enqueu_dequeu_consecutive(1000, 1) == SUCCESS);
-    // assert(test_scq_enqueu_dequeu_consecutive(1000, 10) == SUCCESS);
-    // assert(test_scq_enqueu_dequeu_consecutive(1000, 100) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 1) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 10) == SUCCESS);
+    assert(test_scq_enqueu_dequeu_consecutive(1000, 100) == SUCCESS);
 
     assert(test_scq_enqueu_dequeu_mixed(100, 1000, 1000) == SUCCESS); // TODO: Bernd
+
+    cout << "All tests passed!" << endl;
 }
