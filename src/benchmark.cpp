@@ -42,10 +42,12 @@ void Benchmarker::write_results_to_file()
         
     ofstream outfile(fileName);
     
-    outfile << "thread count;object count;object size;total enqueue time;total dequeue time;enqueue rate;dequeue rate"  << endl;
+    outfile << "queue name;run id;thread count;object count;object size;total enqueue time;total dequeue time;enqueue rate;dequeue rate"  << endl;
     for(int i = 0; i < m_repeats; i++)
     {
         outfile << 
+            m_queue_name << ";" << 
+            i+1 << ";" <<
             m_threadcnt << ";" << 
             m_object_count << ";" << 
             m_object_size << ";" <<
