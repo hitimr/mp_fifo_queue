@@ -92,6 +92,7 @@ int main(int argc, char *argv[])
     }
     else if (queue_type == "LB")
     {
+        assert(false && "LB queue benchmark coming soon (tm)");
         // TODO LB queue benchmark
     }
     else
