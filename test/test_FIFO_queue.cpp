@@ -91,6 +91,7 @@ int test_fifo_wraparound(int threadCnt)
 
 int test_constructor()
 {
+    cout << "Testing constructor..." << endl;
     size_t size = 10;
     FIFO_Queue q(size);
     assert(q.capacity() == size);

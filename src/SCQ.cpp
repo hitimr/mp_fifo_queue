@@ -42,7 +42,7 @@ void SCQ::enqueue(int index)
         {
             atomic_new_entry.store({ (size_t) T, true, index });
 
-            if(entries[j].compare_exchange_strong(ent, new_entry))
+            if(!entries[j].compare_exchange_strong(ent, new_entry))
             {
                 goto load_next;
             }
