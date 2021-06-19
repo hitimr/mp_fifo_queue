@@ -57,6 +57,7 @@ void Benchmarker::write_results_to_file()
             m_dequeue_rates[i] << 
             endl;
     }
+    outfile.close();
 }
 
 

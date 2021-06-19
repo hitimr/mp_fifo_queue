@@ -18,7 +18,7 @@ class LB_Queue
         size_t m_size = 0;
 
     public:    
-        std::string name = "Lock-Based Queue";
+        std::string name = "LockBased Queue";
         size_t head, tail;
         std::vector<std::vector<int> *> items;
         std::mutex * lock;

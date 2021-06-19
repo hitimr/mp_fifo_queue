@@ -58,10 +58,10 @@ int main(int argc, char *argv[])
     }
     else if(argc == 1)
     {
-        queue_type = "FIFO",
+        queue_type = "LB",
         num_threads = 4;
         num_objects = 10000;
-        object_size = 1;
+        object_size = 10;
         repeats = 10;
         capacity = 1.2*num_objects;
     }
@@ -86,14 +86,14 @@ int main(int argc, char *argv[])
     if(queue_type == "FIFO")
     {
         FIFO_Queue fifo_q(capacity);
-        LB_Queue lb_q(capacity);
+        
 
         benchmarker.benchmark<FIFO_Queue>(fifo_q);
     }
     else if (queue_type == "LB")
     {
-        assert(false && "LB queue benchmark coming soon (tm)");
-        // TODO LB queue benchmark
+        LB_Queue lb_q(capacity);
+        benchmarker.benchmark<LB_Queue>(lb_q);
     }
     else
     {

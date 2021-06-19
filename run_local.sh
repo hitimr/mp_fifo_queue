@@ -1,12 +1,22 @@
-./out/build/benchmark FIFO 10000 10 4 10
-./out/build/benchmark FIFO 10000 10 4 10
-./out/build/benchmark FIFO 10000 10 6 10
-./out/build/benchmark FIFO 10000 10 8 10
-./out/build/benchmark FIFO 10000 10 10 10
+#!/bin/bash
 
-./out/build/benchmark FIFO 1000 10 4 10
-./out/build/benchmark FIFO 1000 10 4 10
-./out/build/benchmark FIFO 1000 10 6 10
-./out/build/benchmark FIFO 1000 10 8 10
-./out/build/benchmark FIFO 1000 10 10 10
+queues=("FIFO" "LB")
+num_objects=("100" "1000" "10000")
+thread_cnt=("1" "2" "4" "6" "8" "10" "14" "16" "20" "24")
+objectsize="10"
+repeats="10"
 
+
+for queue in "${queues[@]}"
+do
+    for objects in "${num_objects[@]}"
+    do
+        for objects in "${num_objects[@]}"
+        do
+            for threads in "${thread_cnt[@]}"
+            do
+                ./out/build/benchmark $queue $objects $objectsize $threads $repeats
+            done # end thread_cnt
+        done
+    done # end num_objects
+done    # end queue
