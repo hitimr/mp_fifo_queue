@@ -34,13 +34,26 @@ void Benchmarker::initialize(int thread_cnt, int object_cnt, int object_size, in
 
 void Benchmarker::write_results_to_file()
 {
-    string fileName = "out/" + m_queue_name + "_" + to_string(m_threadcnt) + "_" + to_string(m_object_count) + ".csv";
+    string fileName = "measurements/" + 
+        m_queue_name + "_" + 
+        to_string(m_threadcnt) + "_" + 
+        to_string(m_object_count) + 
+        ".csv";
+        
     ofstream outfile(fileName);
     
-    outfile << "total enqueue time;total dequeue time;enqueue rate;dequeue rate"  << endl;
+    outfile << "thread count;object count;object size;total enqueue time;total dequeue time;enqueue rate;dequeue rate"  << endl;
     for(int i = 0; i < m_repeats; i++)
     {
-        outfile << m_enqueue_times[i] << ";" << m_dequeue_times[i] << ";" << m_enqueue_rates[i] << ";" << m_dequeue_rates[i] << endl;
+        outfile << 
+            m_threadcnt << ";" << 
+            m_object_count << ";" << 
+            m_object_size << ";" <<
+            m_enqueue_times[i] << ";" << 
+            m_dequeue_times[i] << ";" << 
+            m_enqueue_rates[i] << ";" << 
+            m_dequeue_rates[i] << 
+            endl;
     }
 }
 
