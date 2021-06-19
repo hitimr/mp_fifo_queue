@@ -128,11 +128,12 @@ class SCQ
           
     private:
         void catchup(size_t t, int h); 
-        size_t cache_remap(const std::atomic<size_t> & idx, size_t n)
+        size_t cache_remap(const std::atomic<size_t> & idx)
         {
-            return idx; // TODO: fix cache_remaps
+            return idx % ((int)1.5*m_capacity);
+            //return idx; // TODO: fix cache_remaps
             // from https://github.com/rusnikola/lfqueue/blob/master/lfring_cas1.h
-            return (size_t) (idx & (n - 1));    // TODO: understand WTF is going on here
+            //return (size_t) (idx & (n - 1));    // TODO: understand WTF is going on here
         }
 };
 

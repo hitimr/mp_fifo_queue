@@ -27,7 +27,7 @@ void SCQ::enqueue(int index)
     while(true)
     {
         size_t T = FAA(&tail, 1);
-        size_t j = cache_remap(T % m_capacity, m_capacity);
+        size_t j = cache_remap(T);
         SCQ_Element ent = entries[j].load(std::memory_order_relaxed);
 
         std::atomic<SCQ_Element> atomic_new_entry;
@@ -66,7 +66,7 @@ int SCQ::dequeue()
     while(true)
     {
         int H = FAA(&head, 1);
-        int j = cache_remap(H % m_capacity, m_capacity);
+        int j = cache_remap(H);
 
         load_next: // goto 29 in Fig 8
         SCQ_Element entry = entries[j].load(std::memory_order_relaxed);
