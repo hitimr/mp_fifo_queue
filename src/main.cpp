@@ -39,14 +39,33 @@ void playground_hiti()
 */
 int main(int argc, char *argv[])
 {
+    string queue_type;
+    int num_threads;
+    int num_objects;
+    int object_size;
+    int repeats;
+    int capacity;
+
     // parse CLI argumments
-    assert(argc == 6);
-    string queue_type = string(argv[ARG_QUEUE_TYPE]);
-    int num_threads = stoi(argv[ARG_NUM_THREADS]);
-    int num_objects = stoi(argv[ARG_NUM_OBJECTS]);
-    int object_size = stoi(argv[ARG_OBJECT_SIZE]);
-    int repeats = stoi(argv[ARG_REPEATS]);
-    int capacity = 1.2*num_objects;
+    if(argc == 6)
+    {
+        queue_type = string(argv[ARG_QUEUE_TYPE]);
+        num_threads = stoi(argv[ARG_NUM_THREADS]);
+        num_objects = stoi(argv[ARG_NUM_OBJECTS]);
+        object_size = stoi(argv[ARG_OBJECT_SIZE]);
+        repeats = stoi(argv[ARG_REPEATS]);
+        capacity = 1.2*num_objects;
+    }
+    else if(argc == 1)
+    {
+        queue_type = "FIFO",
+        num_threads = 4;
+        num_objects = 10000;
+        object_size = 1;
+        repeats = 10;
+        capacity = 1.2*num_objects;
+    }
+
 
     // some checks..
     assert(num_threads > 0);

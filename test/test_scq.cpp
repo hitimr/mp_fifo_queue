@@ -49,8 +49,9 @@ int test_scq_enqueu_dequeu_consecutive(int capacity, int threadCnt)
         int val = scq.dequeue();
         dequeue_vals[val] = val;
     }
-   // #pragma omp barrier
 
+    #pragma omp barrier
+    #pragma omp parallel for
     for(int i = 0; i < capacity; i++)
     {
         assert(dequeue_vals[i] == i);

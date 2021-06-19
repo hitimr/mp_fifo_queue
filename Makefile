@@ -21,7 +21,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O3
+CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O0
 LDFLAGS = -latomic
 
 # Project
@@ -57,7 +57,7 @@ test: ./test/test_lb_queue.cpp ./test/test_scq.cpp
 .PHONY: clean test
 
 run:
-	./$(BUILD_DIR)/$(TARGET_EXEC) FIFO 1000 10 8 10
+	$(BUILD_DIR)/$(TARGET_EXEC) FIFO 1000 10 8 10
 clean:
 	$(RM) -r $(BUILD_DIR)
 
