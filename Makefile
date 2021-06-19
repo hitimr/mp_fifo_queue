@@ -21,7 +21,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O0
+CPPFLAGS ?= $(INC_FLAGS) -std=c++11 -Wall -Wextra -pedantic -fopenmp -g -O1
 LDFLAGS = -latomic
 
 # Project
@@ -48,16 +48,19 @@ test: ./test/test_lb_queue.cpp ./test/test_scq.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_scq test/test_scq.cpp src/SCQ.cpp $(LDFLAGS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_FIFO_queue test/test_FIFO_queue.cpp src/SCQ.cpp $(LDFLAGS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $(TEST_BUILD_DIR)/test_benchmarker test/test_benchmarker.cpp src/SCQ.cpp src/benchmark.cpp $(LDFLAGS)
-	./$(TEST_BUILD_DIR)/test_lb_queue
-	./$(TEST_BUILD_DIR)/test_scq
-	./$(TEST_BUILD_DIR)/test_FIFO_queue
-	./$(TEST_BUILD_DIR)/test_benchmarker
+	$(TEST_BUILD_DIR)/test_lb_queue
+	$(TEST_BUILD_DIR)/test_scq
+	$(TEST_BUILD_DIR)/test_FIFO_queue
+	$(TEST_BUILD_DIR)/test_benchmarker
+	$(BUILD_DIR)/$(TARGET_EXEC) LB 1000 10 8 10
+	$(BUILD_DIR)/$(TARGET_EXEC) FIFO 1000 10 8 10
 
 
 .PHONY: clean test
 
 run:
 	$(BUILD_DIR)/$(TARGET_EXEC) LB 1000 10 8 10
+
 clean:
 	$(RM) -r $(BUILD_DIR)
 

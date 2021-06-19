@@ -58,12 +58,18 @@ int main(int argc, char *argv[])
     }
     else if(argc == 1)
     {
+        // refault arguments of none are passed (mainly for debugging)
         queue_type = "LB",
         num_threads = 4;
         num_objects = 10000;
         object_size = 10;
         repeats = 10;
         capacity = 1.2*num_objects;
+    }
+    else
+    {
+        cout << "ERROR: Invalid number of arguments" << endl;
+        return -1;
     }
 
 
@@ -83,11 +89,10 @@ int main(int argc, char *argv[])
         );
 
 
+    // run benchmark
     if(queue_type == "FIFO")
     {
         FIFO_Queue fifo_q(capacity);
-        
-
         benchmarker.benchmark<FIFO_Queue>(fifo_q);
     }
     else if (queue_type == "LB")
