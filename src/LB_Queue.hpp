@@ -65,7 +65,7 @@ class LB_Queue
 
             if(tail == head)
             {
-                return NULL;
+                return nullptr;
             } 
 
             auto element = items[head % items.size()];

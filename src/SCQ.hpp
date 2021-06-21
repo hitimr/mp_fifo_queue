@@ -10,21 +10,11 @@
 
 
 // CAS used for implementation
-#define CAS(location, expected, desired) CAS_STD_ATOMIC_STRONG(location, expected, desired)
-
-
-// possible CAS implementations
-#define CAS_STD_ATOMIC_STRONG(location, expected, desired)  std::atomic::compare_exchange_strong(location, expected, desired)
-
+#define CAS(location, expected, desired) std::atomic::compare_exchange_strong(location, expected, desired)
 
 
 // FAA uysed for implementaion
-#define FAA(obj, n) FAA_STD_ATOMIC(obj, n)
-
-
-// possible FAA implementations
-// https://en.cppreference.com/w/cpp/atomic/atomic_fetch_add
-#define FAA_STD_ATOMIC(obj, n) std::atomic_fetch_add(obj, n);
+#define FAA(obj, n) std::atomic_fetch_add(obj, n);
 
 
 // used in earlier stages of development
