@@ -27,7 +27,7 @@
 #define FAA_STD_ATOMIC(obj, n) std::atomic_fetch_add(obj, n);
 
 
-
+// used in earlier stages of development
 template <class T>
 class RingBuffer
 {

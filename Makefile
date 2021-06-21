@@ -59,7 +59,7 @@ test: ./test/test_lb_queue.cpp ./test/test_scq.cpp
 .PHONY: clean test
 
 run:
-	$(BUILD_DIR)/$(TARGET_EXEC) LB 1000 10 8 10
+	$(BUILD_DIR)/$(TARGET_EXEC) FIFO 1000 10 8 10
 
 clean:
 	$(RM) -r $(BUILD_DIR)
