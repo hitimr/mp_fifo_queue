@@ -1,0 +1,11 @@
+queue name;run id;thread count;object count;object size;total enqueue time;total dequeue time;enqueue rate;dequeue rate
+LockBased Queue;1;32;100;10;4.5808;0.002645;21.8303;1181.47
+LockBased Queue;2;32;100;10;1.53182;0.002224;65.2818;1405.13
+LockBased Queue;3;32;100;10;1.54769;0.002334;64.6124;1338.9
+LockBased Queue;4;32;100;10;1.60833;0.002835;62.1765;1102.29
+LockBased Queue;5;32;100;10;1.64068;0.002525;60.9505;1237.62
+LockBased Queue;6;32;100;10;0.9391;0.002344;106.485;1333.19
+LockBased Queue;7;32;100;10;1.58663;0.002715;63.0265;1151.01
+LockBased Queue;8;32;100;10;1.62002;0.002435;61.7277;1283.37
+LockBased Queue;9;32;100;10;1.75044;0.002946;57.1285;1060.76
+LockBased Queue;10;32;100;10;1.17534;0.003056;85.0815;1022.58
