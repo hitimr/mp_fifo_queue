@@ -1,7 +1,7 @@
 #!/bin/bash
 
 queues=("FIFO" "LB")
-num_objects=("100" "1000" "10000")
+num_objects=("10000" "100000")
 thread_cnt=("1" "2" "4" "6" "8" "10" "14" "16" "20" "24")
 objectsize="10"
 repeats="10"
